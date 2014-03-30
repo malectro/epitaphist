@@ -1,0 +1,19 @@
+{
+  "name": "epitaphist",
+  "description": "your final say",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "underscore": "1.x",
+    "mongoose": "3.5.x",
+    "express": "4.x",
+    "passport": "x",
+    "passport-twitter": "x",
+    "consolidate": "0.4.x",
+    "connect-assetmanager": "0.x"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.4.x"
+  }
+}
