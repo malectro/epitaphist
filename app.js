@@ -14,12 +14,15 @@ var _ = require(__dirname + '/wonderscore.js');
 
 
 // constants
+if (_.isUndefined(process)) {
+  var process = {env: {}};
+}
 var PORT = process.env.PORT || 3000;
 var TITLE = 'Epitaphist';
 
 
 // app
-var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/aphorist';
+var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/' + TITLE.toLowerCase();
 var db = mongoose.createConnection(mongoUri);
 var app = express();
 
@@ -30,10 +33,20 @@ App.init = function () {
   // use variable namespace for quicker rendering
   _.templateSettings.variable = 't';
 
+  // compile templates
+  fs.readdir(__dirname + '/client/tmpl', function (err, files) {
+    files.forEach(function (file) {
+      fs.readFile(__dirname + '/client/tmpl/' + file, function (err, data) {
+        App._tmpls[file.split('.')[0]] = _.template(data.toString());
+      });
+    });
+  });
+
   app.set('title', TITLE).
 
     // template engine
-    engine('html', consolidate.underscore).
+    engine('html', App.templateEngine).
+    set('view engine', 'html').
 
     // index folder
     set('views', __dirname + '/client/views').
@@ -53,7 +66,7 @@ App.init = function () {
         preManipulate: {
           '^': function (file, path, index, isLast, callback) {
             var name = path.split('/').pop().split('.')[0];
-            callback(null, "Tmpl." + name + " = " + _.template(file.replace(/  /g, '')).source + ";\n");
+            callback(null, "Tmpl." + name + " = " + App._tmpls[name].source + ";\n");
           }
         },
         postManipulate: {
@@ -76,6 +89,20 @@ App.routes = function () {
     res.render('index', {});
   });
 
+};
+
+
+// templating
+App._tmpls = {};
+
+App.templateEngine = function (path, options, callback) {
+  var name = path.split('/').pop().split('.')[0];
+  callback(null, App._partial(name, options));
+};
+
+App._partial = function (name, options) {
+  options._partial = App._partial;
+  return App._tmpls[name](options);
 };
 
 
