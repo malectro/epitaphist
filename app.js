@@ -12,6 +12,10 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var assetManager = require('connect-assetmanager');
 var fs = require('fs');
 
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+
 var env = require(__dirname + '/env.js');
 var Model = require(__dirname + '/models/models.js');
 
@@ -122,9 +126,9 @@ App.setUpAuth = function () {
   ));
 
   // set up session storage and cookieParser.
-  app.use(express.bodyParser())
-     .use(express.cookieParser('jfoielnflcikdieflsli1383'))
-     .use(express.session())
+  app.use(bodyParser())
+     .use(cookieParser('jfoielnflcikdieflsli1383'))
+     .use(session())
      .use(passport.initialize())
      .use(passport.session());
 };
