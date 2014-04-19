@@ -93,8 +93,8 @@ _.extend(User.methods, {
 });
 
 Model.init = function (db) {
-  Schema.forEach(function (name) {
+  for (var name in Schema) {
     Model[name] = db.model(name, Schema[name]);
-  });
+  }
 };
 

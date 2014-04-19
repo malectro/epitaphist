@@ -84,8 +84,10 @@ App.init = function () {
       }
     }), express.static(__dirname + '/client/tmpl'));
 
-  this.routes();
+  Model.init(db);
   this.setUpAuth();
+  this.middleware();
+  this.routes();
 };
 
 
@@ -127,8 +129,8 @@ App.setUpAuth = function () {
 
   // set up session storage and cookieParser.
   app.use(bodyParser())
-     .use(cookieParser('jfoielnflcikdieflsli1383'))
-     .use(session())
+     .use(cookieParser('kyle is the best'))
+     .use(session({secret: 'kyle is the best'}))
      .use(passport.initialize())
      .use(passport.session());
 };
@@ -186,8 +188,20 @@ App.routes = function () {
 
   // home
   app.get('/', function (req, res) {
-    res.render('index', {});
+    res.render('index', {req: req});
   });
+
+  // auth
+  app.get('/auth/twitter', passport.authenticate('twitter'));
+  app.get('/logout', function (req, res) {
+    req.logout();
+    res.clearCookie('auth_token');
+    res.redirect('/');
+  });
+  app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+    successRedirect: '/',
+    failureRedirect: '/'
+  }));
 
 };
 
