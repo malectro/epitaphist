@@ -3,6 +3,8 @@
 var App = {};
 
 // requirements
+var _ = require(__dirname + '/wonderscore.js');
+
 var express = require('express');
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -10,12 +12,13 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var assetManager = require('connect-assetmanager');
 var fs = require('fs');
 
-var _ = require(__dirname + '/wonderscore.js');
+var env = require(__dirname + '/env.js');
+var Model = require(__dirname + '/models/models.js');
 
 
 // constants
 if (_.isUndefined(process)) {
-  var process = {env: {}};
+  var process = {env: env};
 }
 var PORT = process.env.PORT || 3000;
 var TITLE = 'Epitaphist';
@@ -91,7 +94,7 @@ App.setUpAuth = function () {
   });
 
   passport.deserializeUser(function (id, done) {
-    Models.User.findById(id, done);
+    Model.User.findById(id, done);
   });
 
   // initialize twitter authentication via passport.
@@ -101,7 +104,7 @@ App.setUpAuth = function () {
       callbackURL: '/auth/twitter/callback'
     },
     function (token, tokenSecret, twitterUser, done) {
-      Models.User.findByTwitterId(twitterUser.id, function (err, user) {
+      Model.User.findByTwitterId(twitterUser.id, function (err, user) {
         if (err) {
           // Error handling.
           return done(err);
@@ -118,7 +121,7 @@ App.setUpAuth = function () {
     }
   ));
 
-  // Set up session storage and cookieParser.
+  // set up session storage and cookieParser.
   app.use(express.bodyParser())
      .use(express.cookieParser('jfoielnflcikdieflsli1383'))
      .use(express.session())
@@ -135,7 +138,7 @@ App.middleware = function () {
     if (!req.user && req.cookies.auth_token) {
       var tokenData = JSON.parse(req.cookies.auth_token);
 
-      Models.User.authWithParams(tokenData, function (error, user) {
+      Model.User.authWithParams(tokenData, function (error, user) {
         if (user) {
           req.user = user;
           req.session.auth = req.session.auth || {};
@@ -164,7 +167,7 @@ App.middleware = function () {
 
       if (!req.cookies.auth_token) {
         res.cookie('auth_token', req.user.tokenParams(), {
-          expires: new Date(Date.now() + (Models.User.TOKEN_EXPIRE_TIME - 0)),
+          expires: new Date(Date.now() + (Model.User.TOKEN_EXPIRE_TIME - 0)),
           path: '/'
         });
       }
