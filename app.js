@@ -94,6 +94,21 @@ App.init = function () {
 // auth setup
 App.setUpAuth = function () {
 
+  // creates a User in the db with info from twitter.
+  function addTwitterUser(twitterUser) {
+    var params = {
+        twitter_id: twitterUser.id,
+        username: twitterUser.username,
+        name: twitterUser.displayName,
+        image_url: twitterUser._json.profile_image_url,
+        ability: 9
+      },
+      newUser = new Model.User(params);
+
+    newUser.save();
+    return newUser;
+  }
+
   // user methods
   passport.serializeUser(function (user, done) {
     done(null, user.id);
@@ -117,7 +132,7 @@ App.setUpAuth = function () {
         }
         if (!user) {
           // User with this twitter Id doesn't exist.
-          user = addUser(twitterUser);
+          user = addTwitterUser(twitterUser);
         }
 
         user.generateToken(twitterUser, function (error) {

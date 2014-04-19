@@ -1,5 +1,6 @@
 var _ = require(__dirname + '/../wonderscore.js');
 var mongoose = require('mongoose');
+var crypto = require('crypto');
 
 var Schema = {};
 var Model = exports;
