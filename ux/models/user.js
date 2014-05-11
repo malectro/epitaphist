@@ -6,7 +6,9 @@
 
   });
 
-  var Users = UX.List.User = Backbone.Collection.extend({
+  var Users = UX.List.Users = Backbone.Collection.extend({
+
+    model: User
 
   });
 

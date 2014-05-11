@@ -6,7 +6,9 @@
 
   });
 
-  var Epitaph = UX.List.Epitaph = Backbone.Collection.extend({
+  var Epitaphs = UX.List.Epitaphs = Backbone.Collection.extend({
+
+    model: Epitaph
 
   });
 
