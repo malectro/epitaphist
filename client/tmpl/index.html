@@ -2,6 +2,12 @@
 <html>
   <head>
     <title>Memory Field</title>
+
+    <script src="/util/underscore.js"></script>
+    <script src="/util/wonderscore.js"></script>
+    <script src="/util/zepto.js"></script>
+    <script src="/util/backbone.js"></script>
+    <script src="/ux/app.js"></script>
   </head>
 
   <body>
@@ -11,5 +17,9 @@
     <% } else { %>
       <a href="/auth/twitter">log in</a>
     <% } %>
+
+    <script>
+      App.app = new App.View.App;
+    </script>
   </body>
 </html>

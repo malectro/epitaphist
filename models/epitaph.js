@@ -1,4 +1,4 @@
-var _ = require(__dirname + '/../wonderscore.js');
+var _ = require(__dirname + '/../util/wonderscore.js');
 var mongoose = require('mongoose');
 
 

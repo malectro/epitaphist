@@ -3,7 +3,7 @@
 var App = {};
 
 // requirements
-var _ = require(__dirname + '/wonderscore.js');
+var _ = require(__dirname + '/util/wonderscore.js');
 
 var express = require('express');
 var mongoose = require('mongoose');
@@ -59,7 +59,8 @@ App.init = function () {
     set('views', __dirname + '/client/views').
 
     // static files
-    use('/js', express.static(__dirname + '/client/js')).
+    use('/ux', express.static(__dirname + '/ux')).
+    use('/util', express.static(__dirname + '/util')).
     use('/less', express.static(__dirname + '/client/less')).
     use('/img', express.static(__dirname + '/client/img')).
 

@@ -1,11 +1,12 @@
 /**
  * Aphorist Utils file.
- * This could be mereged with Underscore at some point.
+ * This could be merged with Underscore at some point.
  */
 
 (function () {
   // Default setup taken from Backbone
   var root = this;
+  var Underscore = root._;
 
   var _;
   if (typeof exports !== 'undefined') {
@@ -14,7 +15,6 @@
     _ = root._ = {};
   }
 
-  var Underscore = root._;
   if (!Underscore && (typeof require !== 'undefined')) {
     Underscore = require('underscore');
   }
