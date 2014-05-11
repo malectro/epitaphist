@@ -5,9 +5,7 @@ var crypto = require('crypto');
 
 var User = exports;
 
-/**
- * User
- */
+
 var Schema = User.Schema = mongoose.Schema({
   twitter_id: Number,
   username: String,

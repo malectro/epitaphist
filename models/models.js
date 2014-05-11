@@ -4,7 +4,8 @@ var Schema = {};
 var Model = exports;
 
 var models = [
-  'User'
+  'User',
+  'Epitaph'
 ];
 
 _.each(models, function (model) {
