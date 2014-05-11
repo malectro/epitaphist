@@ -163,11 +163,18 @@ App.middleware = function () {
       Model.User.authWithParams(tokenData, function (error, user) {
         if (user) {
           req.user = user;
+
+          // this can possibly be removed
           req.session.auth = req.session.auth || {};
           req.session.auth.userId = user.id;
           req.session.auth.loggedIn = true;
+
+          // but not this
+          req.session.passport = req.session.passport || {};
+          req.session.passport.user = user.id;
         }
 
+        //req.cookies.auth_token = null;
         res.clearCookie('auth_token');
 
         next();
@@ -218,6 +225,40 @@ App.routes = function () {
     successRedirect: '/',
     failureRedirect: '/'
   }));
+
+  // epitaphs
+  app.route('/epitaphs').
+    get(function (req, res) {
+      Model.Epitaph.find().exec(function (error, epitaphs) {
+        res.json(epitaphs);
+      });
+    }).
+    post(function (req, res) {
+      var error;
+
+      if (!req.user || req.user.id !== req.body.user_id) {
+        error = 'not allowed'
+      } else if (!req.body.text) {
+        error = 'requires text'
+      }
+
+      if (error) {
+        res.json(400, {error: error});
+      } else {
+        var epitaph = new Model.Epitaph({
+          user: req.user,
+          text: req.body.text
+        })
+
+        epitaph.save(function (error) {
+          if (error) {
+            res.json(400, {error: error});
+          } else {
+            res.json(200, epitaph);
+          }
+        });
+      }
+    });
 
 };
 

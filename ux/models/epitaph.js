@@ -8,7 +8,8 @@
 
   var Epitaphs = UX.List.Epitaphs = Backbone.Collection.extend({
 
-    model: Epitaph
+    model: Epitaph,
+    url: '/epitaphs'
 
   });
 

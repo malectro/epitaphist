@@ -23,10 +23,12 @@
 
     initialize: function (options) {
       this.user = new UX.Model.User(options.user);
+      this.epitaphs = new UX.List.Epitaphs;
 
       if (this.user.id) {
         this.composer = new UX.View.Composer({
-          user: this.user
+          user: this.user,
+          epitaphs: this.epitaphs
         }).render().show();
       }
 

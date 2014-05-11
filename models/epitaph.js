@@ -12,3 +12,5 @@ var Schema = Epitaph.Schema = mongoose.Schema({
   y: Number
 });
 
+Schema.index({user: 1}, {unique: true});
+
