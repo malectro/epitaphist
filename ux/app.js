@@ -23,10 +23,24 @@
 
     initialize: function (options) {
       this.user = new UX.Model.User(options.user);
+
+      if (this.user.id) {
+
+      }
+
       console.log('initialized main view');
     }
 
   });
+
+  UX.init = function () {
+    UX.app = new UX.View.App(UX.env);
+  };
+
+  require([
+    'ux/models/user',
+    'ux/models/epitaph'
+  ], false, UX.init);
 
 }).call(this);
 

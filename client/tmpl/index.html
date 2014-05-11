@@ -7,8 +7,15 @@
     <script src="/util/wonderscore.js"></script>
     <script src="/util/zepto.js"></script>
     <script src="/util/backbone.js"></script>
+    <script src="/util/require.js"></script>
     <script src="/ux/app.js"></script>
-    <script src="/ux/models/user.js"></script>
+
+    <script>
+      UX.env = {
+        user: <%= JSON.stringify(t.req.user || null) %>
+      };
+    </script>
+
   </head>
 
   <body>
@@ -18,11 +25,5 @@
     <% } else { %>
       <a href="/auth/twitter">log in</a>
     <% } %>
-
-    <script>
-      UX.app = new UX.View.App({
-        user: <%= JSON.stringify(t.req.user || null) %>
-      });
-    </script>
   </body>
 </html>
