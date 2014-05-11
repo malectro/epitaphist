@@ -56,5 +56,15 @@
     return ob;
   };
 
+
+  /**
+   * capitalize
+   * adds extremely naive English capitalization to a string.
+   * ex. var properPronoun = _.capitalize('english');
+   */
+  _.capitalize = function (string) {
+    return string[0].toUpperCase() + string.substr(1);
+  };
+
 }).call(this);
 
