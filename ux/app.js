@@ -27,7 +27,7 @@
       if (this.user.id) {
         this.composer = new UX.View.Composer({
           user: this.user
-        });
+        }).render().show();
       }
 
       console.log('initialized main view');
