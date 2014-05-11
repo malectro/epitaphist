@@ -2,11 +2,11 @@
 
   var root = this;
 
-  var App;
+  var UX;
   if (typeof exports !== 'undefined') {
-    App = global.UX = exports;
+    UX = global.UX = exports;
   } else {
-    App = root.App = {};
+    UX = root.UX = {};
   }
 
   var Backbone = root.Backbone;
@@ -14,14 +14,15 @@
     Backbone = global.Backbone = require('backbone');
   }
 
-  App.View = {};
-  App.Model = {};
-  App.List = {};
+  UX.View = {};
+  UX.Model = {};
+  UX.List = {};
 
 
-  App.View.App = Backbone.View.extend({
+  UX.View.App = Backbone.View.extend({
 
-    initialize: function () {
+    initialize: function (options) {
+      this.user = new UX.Model.User(options.user);
       console.log('initialized main view');
     }
 
