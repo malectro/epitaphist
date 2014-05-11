@@ -25,7 +25,9 @@
       this.user = new UX.Model.User(options.user);
 
       if (this.user.id) {
-
+        this.composer = new UX.View.Composer({
+          user: this.user
+        });
       }
 
       console.log('initialized main view');
@@ -39,7 +41,8 @@
 
   require([
     'ux/models/user',
-    'ux/models/epitaph'
+    'ux/models/epitaph',
+    'ux/views/composer'
   ], false, UX.init);
 
 }).call(this);
